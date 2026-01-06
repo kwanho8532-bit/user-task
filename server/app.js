@@ -114,7 +114,9 @@ function catchAsync(func) {
     }
 }
 
-app.get('/api/me', (req, res) => {
+const baseURL = 'https://user-task-hdik.onrender.com' || '/api'
+
+app.get(`${baseURL}/me`, (req, res) => {
     if (!req.isAuthenticated()) {
         return res.json({ user: null })
     }
