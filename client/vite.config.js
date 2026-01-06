@@ -7,6 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:3000'
+    },
+    build: {
+      sourcemap: true
     }
   }
   // react에서 요청이 발생 -> vite의 포트인 5173으로 들어가게됨
