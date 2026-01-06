@@ -114,9 +114,7 @@ function catchAsync(func) {
     }
 }
 
-const baseURL = 'https://user-task-hdik.onrender.com' || '/api'
-
-app.get(`${baseURL}/me`, (req, res) => {
+app.get('/api/me', (req, res) => {
     if (!req.isAuthenticated()) {
         return res.json({ user: null })
     }
@@ -124,17 +122,17 @@ app.get(`${baseURL}/me`, (req, res) => {
     res.json({ user: req.user })
 })
 
-app.get(`${baseURL}/users`, catchAsync(async (req, res) => {
+app.get('/api/users', catchAsync(async (req, res) => {
     const users = await User.find()
     res.status(200).json(users)
 }))
 
-app.get(`${baseURL}/tasks`, catchAsync(async (req, res, next) => {
+app.get('/api/tasks', catchAsync(async (req, res, next) => {
     const tasks = await Task.find().populate('user')
     res.status(200).json(tasks)
 }))
 
-app.post(`${baseURL}/signup`, catchAsync(async (req, res, next) => {
+app.post('/api/signup', catchAsync(async (req, res, next) => {
     console.log(req.body)
     const { name, email, password } = req.body
     const user = new User({ name, email })
@@ -152,7 +150,7 @@ app.post(`${baseURL}/signup`, catchAsync(async (req, res, next) => {
     })
 }))
 
-app.post(`${baseURL}/signin`, (req, res, next) => {
+app.post('/api/signin', (req, res, next) => {
     console.log('in server', req.body)
     // passport(LocalStrategy)가 알아서 req.body를 읽고 username/password를 추출
     // 근데 나는 usernameField: 'email'로 지정해서 email/password를 추출
@@ -177,7 +175,7 @@ app.post(`${baseURL}/signin`, (req, res, next) => {
     // → 성공 시 user 객체를 req.login으로 넘겨주는 함수다.
 })
 
-app.get(`${baseURL}/signout`, (req, res, next) => {
+app.get('/api/signout', (req, res, next) => {
     if (!req.isAuthenticated()) {
         return res.json({ message: '로그인이 되어있지 않습니다.' })
     } else {
@@ -188,7 +186,7 @@ app.get(`${baseURL}/signout`, (req, res, next) => {
     }
 })
 
-app.post(`${baseURL}/tasks`, isLoggedIn, catchAsync(async (req, res, next) => {
+app.post('/api/tasks', isLoggedIn, catchAsync(async (req, res, next) => {
     const task = {
         ...req.body,
         user: req.user._id
@@ -200,7 +198,7 @@ app.post(`${baseURL}/tasks`, isLoggedIn, catchAsync(async (req, res, next) => {
     res.status(201).json(newTask)
 }))
 
-app.patch(`${baseURL}/tasks/:id`, isAuthority, catchAsync(async (req, res, next) => {
+app.patch('/api/tasks/:id', isAuthority, catchAsync(async (req, res, next) => {
     const { id } = req.params
     // console.log(req.params)
     const task = await Task.findByIdAndUpdate(id, [{
@@ -213,7 +211,7 @@ app.patch(`${baseURL}/tasks/:id`, isAuthority, catchAsync(async (req, res, next)
     res.status(200).json(task)
 }))
 
-app.delete(`${baseURL}/tasks/:id`, isAuthority, catchAsync(async (req, res, next) => {
+app.delete('/api/tasks/:id', isAuthority, catchAsync(async (req, res, next) => {
     const { id } = req.params
     const delTask = await Task.findByIdAndDelete(id)
     console.log(delTask)
