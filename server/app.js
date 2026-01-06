@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 import session from 'express-session'
 import passport from 'passport'
 import LocalStrategy from 'passport-local'
+import MongoStore from 'connect-mongo'
 
 import User from './models/user.js'
 import Task from './models/task.js'
@@ -36,9 +37,23 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 const sessionConfig = {
+    name: 'session',
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_ATLAS_URI,
+        collectionName: 'sessions', // 세션에 저장할 MongoDB컬렉션 이름을 기재 (보통은 그냥 sessions를 사용)
+        ttl: 60 * 60 * 24 // 초 단위 / 보통은 maxAge와 값을 맞춤
+        // maxAge는 브라우저 기준으로 쿠키가 언제 삭제될지를 지정
+        // ttl은 DB기준으로 세션 문서가 언제 삭제될지를 지정
+
+        // ⚠️ 둘이 다르면 어떻게 되냐?
+        // 상황	                    결과
+        // cookie 만료, ttl 남음	DB에 세션은 남아있지만 접근 불가
+        // ttl 만료, cookie 남음	쿠키는 있지만 세션 없음 → 로그아웃
+        // 둘 다 같음	            👍 가장 이상적
+    }),
     cookie: {
         secure: true,
         httpOnly: true,
@@ -210,8 +225,9 @@ app.use((err, req, res, next) => {
 })
 
 const port = process.env.PORT || 3000
+
 app.listen(port, () => {
-    console.log('Listening on the 3000 port')
+    console.log(`Listening on the ${port} port`)
 })
 
 // SPA의 정석
