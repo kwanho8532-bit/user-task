@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'https://user-task-hdik.onrender.com' || '/api' // 앞은 render에서 배포한 express 서버 주소 뒤는 로컬서버에서 저장한 주소
+    baseURL: 'https://user-task-hdik.onrender.com/api'
 })
 
 api.interceptors.response.use(
