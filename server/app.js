@@ -22,7 +22,8 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-mongoose.connect(process.env.MONGODB_URL)
+// mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGO_ATLAS_URI)
 
 const db = mongoose.connection
 
@@ -208,7 +209,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).json(err)
 })
 
-app.listen(process.env.PORT, () => {
+const port = process.env.PORT || 3000
+app.listen(port, () => {
     console.log('Listening on the 3000 port')
 })
 
