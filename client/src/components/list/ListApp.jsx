@@ -130,7 +130,7 @@ export default function ListApp() {
                     UserList
                 </Typography>
                 <TaskContext.Provider value={{ tasks, addTask }}>
-                    {users.map(user => <UserAccordion key={user._id} user={user} toggle={toggle} deleteTask={deleteTask} />)}
+                    {users?.map(user => <UserAccordion key={user._id} user={user} toggle={toggle} deleteTask={deleteTask} />)}
                 </TaskContext.Provider>
             </Paper>
             {/* Context는 읽기 전용을 사용하는 것이 바람직 & 위 처럼 선택된 user는 props로 전달하는 것이 바람직 */}
