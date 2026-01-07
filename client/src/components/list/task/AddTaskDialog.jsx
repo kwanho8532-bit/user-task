@@ -20,7 +20,7 @@ import { useAuth } from '../../../AuthContext';
 export default function AddTaskDialog({ user }) {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
-    const { user } = useAuth()
+    const { user: authUser } = useAuth()
 
     const { addTask } = useContext(TaskContext)
 
@@ -78,7 +78,7 @@ export default function AddTaskDialog({ user }) {
 
     return (
         <>
-            {user ?
+            {authUser ?
                 <>
                     <Box sx={{ display: 'flex' }}>
                         <Button sx={{ ml: 'auto' }} variant="outlined" onClick={handleClickOpen}>
