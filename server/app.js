@@ -47,7 +47,7 @@ app.use(cors({
     // 브라우저에서 기본적으로 cross-origin 요청은 쿠키를 보내지 않음
     // 세션 로그인, JWT 토큰을 쿠키에 저장하고 사용한다면 서버와 클라이언트 모두에 설정해야함 \
     // fetch('url~~~', {credentials: 'include'})
-    credentials: true // 쿠키 사용 시 필요함
+    // credentials: true // 쿠키 사용 시 필요함
 }))
 
 const sessionConfig = {
