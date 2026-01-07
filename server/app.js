@@ -40,9 +40,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 // CORS = 내가 만든 웹사이트가 다른 서버(도메인)에 있는 자원을 요청할 때, 브라우저가 이를 허용할지 말지 결정하는 보안 정책
 // 기본적으로 브라우저는 보안은 위해 SOP(Same-Origin Policy, 동일 출처 정책)을 따름
 app.use(cors({
@@ -56,6 +53,8 @@ app.use(cors({
     // fetch('url~~~', {credentials: 'include'})
     // credentials: true // 쿠키 사용 시 필요함
 }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const sessionConfig = {
     name: 'session',
