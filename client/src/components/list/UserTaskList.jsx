@@ -30,7 +30,7 @@ export default function UserTaskList({ user, toggle, deleteTask }) {
     return (
         <div>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {authUser && userTask.length === 0 ?
+                {/* {authUser && userTask.length === 0 ?
                     <Typography variant="subtitle2" gutterBottom>
                         일정이 없습니다! 추가해보세요!
                     </Typography>
@@ -70,7 +70,43 @@ export default function UserTaskList({ user, toggle, deleteTask }) {
                                     접근 권한이 없습니다!
                                 </Alert>
                         );
-                    })}
+                    })} */}
+
+                {/* 아래 코드처럼 리팩토링 */}
+
+                {/* 로그인 안 됨 */}
+                {!authUser && (
+                    <Alert severity="warning">
+                        로그인 후 이용해주세요!
+                    </Alert>
+                )}
+
+                {/* 로그인 됨 + task 없음 */}
+                {authUser && userTask.length === 0 && (
+                    <Typography variant="subtitle2" gutterBottom>
+                        일정이 없습니다! 추가해보세요!
+                    </Typography>
+                )}
+
+                {/* task 있음 */}
+                {userTask.map(task => {
+                    const labelId = `checkbox-list-label-${task.title}`;
+
+                    if (!authUser || authUser._id !== task.user._id) {
+                        return (
+                            <Alert severity="warning" key={task._id}>
+                                접근 권한이 없습니다!
+                            </Alert>
+                        );
+                    }
+
+                    return (
+                        <ListItem key={task._id} disablePadding>
+                            ...
+                        </ListItem>
+                    );
+                })}
+
 
             </List>
         </div >
