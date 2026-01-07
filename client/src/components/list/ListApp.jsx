@@ -51,8 +51,6 @@ export default function ListApp() {
         getTasks()
     }, [])
 
-    // gpt CORS설정 등 따라서 해보면서 배포 에러 잡기
-
     useEffect(() => {
         if (!error) return;
 

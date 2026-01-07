@@ -30,7 +30,7 @@ export default function UserTaskList({ user, toggle, deleteTask }) {
     return (
         <div>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {userTask.length === 0 ?
+                {authUser && userTask.length === 0 ?
                     <Typography variant="subtitle2" gutterBottom>
                         일정이 없습니다! 추가해보세요!
                     </Typography>
