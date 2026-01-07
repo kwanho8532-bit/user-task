@@ -51,8 +51,11 @@ app.use(cors({
     // 브라우저에서 기본적으로 cross-origin 요청은 쿠키를 보내지 않음
     // 세션 로그인, JWT 토큰을 쿠키에 저장하고 사용한다면 서버와 클라이언트 모두에 설정해야함 \
     // fetch('url~~~', {credentials: 'include'})
-    // credentials: true // 쿠키 사용 시 필요함
+    credentials: true // 쿠키 사용 시 필요함
 }))
+// cors 미들웨어가 app.use(express.json()) 보다 위에 있어야 함
+// cors는 요청이 들어오면 라우트로 가기 전에 응답에 붙일 헤더를 미리 세팅함
+// express.json()은 요청 body를 파싱하여 req.body에 넣어줌
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
