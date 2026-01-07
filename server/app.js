@@ -9,6 +9,7 @@ import session from 'express-session'
 import passport from 'passport'
 import LocalStrategy from 'passport-local'
 import MongoStore from 'connect-mongo'
+import cors from 'cors'
 
 import User from './models/user.js'
 import Task from './models/task.js'
@@ -35,6 +36,19 @@ db.once('open', () => {
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// CORS = 내가 만든 웹사이트가 다른 서버(도메인)에 있는 자원을 요청할 때, 브라우저가 이를 허용할지 말지 결정하는 보안 정책
+// 기본적으로 브라우저는 보안은 위해 SOP(Same-Origin Policy, 동일 출처 정책)을 따름
+app.use(cors({
+    // 어떤 도메인에서 오는 요청을 허용할지 지정하는 옵션 / 개발 중에는 '*'로 모든 도메인 허용 가능, 배포 시에는 특정 도메인만 허용하는 것이 안전함
+    origin: 'https://user-task-rlifrdl2l-kwanho8532-bits-projects.vercel.app',
+    // 어떤 HTTP 메서드를 허용할지 설정하는 옵션
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    // 쿠키, 인증 헤더 같은 인증 정보를 클라이언트와 공유할 수 있도록 허용하는 옵션
+    // 브라우저에서 기본적으로 cross-origin 요청은 쿠키를 보내지 않음
+    // 세션 로그인, JWT 토큰을 쿠키에 저장하고 사용한다면 서버와 클라이언트 모두에 설정해야함 \
+    // fetch('url~~~', {credentials: 'include'})
+    credentials: true // 쿠키 사용 시 필요함
+}))
 
 const sessionConfig = {
     name: 'session',
