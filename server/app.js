@@ -44,8 +44,7 @@ app.use((req, res, next) => {
 // 기본적으로 브라우저는 보안은 위해 SOP(Same-Origin Policy, 동일 출처 정책)을 따름
 app.use(cors({
     // 어떤 도메인에서 오는 요청을 허용할지 지정하는 옵션 / 개발 중에는 '*'로 모든 도메인 허용 가능, 배포 시에는 특정 도메인만 허용하는 것이 안전함
-    // origin: process.env.CLIENT_ORIGIN,
-    origin: true,
+    origin: process.env.CLIENT_ORIGIN,
     // 어떤 HTTP 메서드를 허용할지 설정하는 옵션
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     // 쿠키, 인증 헤더 같은 인증 정보를 클라이언트와 공유할 수 있도록 허용하는 옵션
