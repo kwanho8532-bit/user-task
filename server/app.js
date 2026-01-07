@@ -57,8 +57,6 @@ app.use(cors({
 // cors는 요청이 들어오면 라우트로 가기 전에 응답에 붙일 헤더를 미리 세팅함
 // express.json()은 요청 body를 파싱하여 req.body에 넣어줌
 
-app.options('*', cors());
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
